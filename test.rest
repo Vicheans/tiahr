@@ -1,7 +1,8 @@
 
 
+# https://www.youtube.com/watch?v=llrIu4Qsl7c : complete
 
-POST http://127.0.0.1:4000/signup
+POST http://127.0.0.1:8000/signup
 Content-Type: application/json
 
 {"username": "Admin", "password": "Pass123"}
