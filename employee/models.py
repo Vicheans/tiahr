@@ -8,7 +8,7 @@ class Employee(models.Model):
     contact = models.CharField(max_length=20)
     details= models.TextField()
     jobTitle = models.TextField()
-    password = models.CharField(max_length=50)
+    password = models.CharField(max_length=50, default=1111)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     createdBy = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
