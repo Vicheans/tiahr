@@ -9,6 +9,12 @@ from django.contrib.auth.models import User
 
 from django.shortcuts import get_object_or_404
 
+
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
+
+
 def getUsername(request: Request) -> str:
     return request.data['username']
 
@@ -18,8 +24,15 @@ def getPassword(request: Request) -> str:
 def notFound():
     return status.HTTP_400_BAD_REQUEST
 
-@api_view(['POST'])
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def login(request):
+
+    if request.method == 'GET':
+        return Response({"message": "Needs No Auth"})
+
     user = get_object_or_404(User, username=getUsername(request))
     if not user.check_password(getPassword(request)):
         return Response({'detail': 'Not Found'}, status=notFound())
@@ -39,12 +52,6 @@ def signup(request):
         token = Token.objects.create(user=user)
         return Response({"user": dict(user), "token": token.key})
     return Response(serializer.errors, status=notFound())
-
-
-from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-
 
 
 @api_view(['GET'])

@@ -17,12 +17,9 @@ Including another URLconf
 # from django.contrib import admin
 # from django.urls import path
 from django.urls import path, re_path, include
-
 from . import views
 
 urlpatterns = [
-
-
     path("", include("attendance.urls")),
     path("", include("department.urls")),
     path("", include("employee.urls")),

@@ -6,17 +6,18 @@ from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 
 class LeaveSerializer(serializers.ModelSerializer):
+    approvedBy = serializers.SerializerMethodField()
+
+    def get_approvedBy(self):
+        request = self.context.get("request")
+        return request.user.id
+
     class Meta:
         model = Leave
-        fields = [ "title", "details", "dateRequested", "employeeID", "status" ]
+        fields = [ "title", "details", "dateRequested", "employeeID", "status", "approvedBy" ]
     
-    def save(self):
+    def create(self, validated_data):
         request = self.context.get("request")
-        if request and hasattr(request, "user"):
-            user = get_object_or_404(User, username=(request.data['username']))
-            token = Token.objects.get_or_create(user=user)
-
-            # User.objects.get(username = CurrentUserDefault())
-            # approvedBy = CurrentUserDefault()
-            print("Current User =============> :", token)
+        record = Leave.objects.create(approvedBy = request.user, **validated_data)
+        return record
 

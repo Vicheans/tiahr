@@ -10,7 +10,7 @@ class Leave(models.Model):
     dateRequested = models.DateTimeField(auto_now_add=True)
     employeeID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     status = models.BooleanField(False)
-    approvedBy = models.OneToOneField(User, on_delete=models.CASCADE)
+    approvedBy = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
