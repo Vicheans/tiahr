@@ -16,13 +16,20 @@ Including another URLconf
 """
 # from django.contrib import admin
 # from django.urls import path
-from django.urls import re_path
+from django.urls import path, re_path, include
 
 from . import views
 
 urlpatterns = [
+
+
+    path("", include("attendance.urls")),
+    path("", include("department.urls")),
+    path("", include("employee.urls")),
+    path("", include("leave.urls")),
+
     # path('admin/', admin.site.urls),
     re_path('login', views.login),
     re_path('signup', views.signup),
-    re_path('test_token', views.test_token),
+    re_path('test-token', views.test_token),
 ]
