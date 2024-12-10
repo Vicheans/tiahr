@@ -41,8 +41,13 @@ def login(request):
     return Response({"token": token.key, "user": serializer.data})
 
 
-@api_view(['POST'])
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny])
 def signup(request):
+
+    if request.method == 'GET':
+        return Response({"message": "Needs No Auth"})
+
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
@@ -60,5 +65,4 @@ def signup(request):
 def test_token(request):
     
     just_username = User(request).get_username()
-
     return Response({"message": "Passed!", "user": str(request.user), "just_username": just_username})
